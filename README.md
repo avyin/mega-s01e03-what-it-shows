@@ -60,6 +60,8 @@ components, prerenders the site, verifies the derived desk reference against the
 signature, and produces the self-contained reading copy. Its dedupe controls are a static
 snapshot; the complete site retains the interactive controls.
 
-The report counts describe the supplied snapshot, not the live desk. No product fix has
-been implemented or deployed. Acceptance criteria in the issue drafts are work to be done
-against the product, which is not included in the export.
+The report counts describe the supplied snapshot, not the live desk. The course's later
+engineering update reports #4471 closed on 5 October: parser fixed (`fix(dates): parse dd/mm
+for eu locales`); hint won't fix (`booking-v3 form retired`). These are reported outcomes,
+not changes implemented or independently verified by this repository. The issue drafts
+preserve the original investigation; the GitHub closures record the later dispositions.

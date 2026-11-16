@@ -2,7 +2,7 @@
 layout: runbook
 title: '#4471 review: separate parser and booking-form hint failures'
 owner: Maximiliano Martinez Marquez
-status: reviewed
+status: closed
 reviewed: '2026-11-16'
 signature: 'Maximiliano Martinez Marquez with Codex · S01E03 · 2026-11-16'
 ---
@@ -17,10 +17,21 @@ signature: 'Maximiliano Martinez Marquez with Codex · S01E03 · 2026-11-16'
 </script>
 
 This review replaces the interpretation in the [original incident page](/kb/incidents/4471).
-The evidence is the support KB export dated 4 October 2026. It is a snapshot: the desk continues
-working, and this review does not claim that the live queue has stopped or that either fix has shipped.
+The counts describe the support KB export dated 4 October 2026. A later engineering update on
+the course's Challenge page reports that #4471 closed on 5 October, with different outcomes
+for the two causes. The historical counts below are retained rather than rewritten as live totals.
 
-<Callout>The “one issue, one fix” conclusion is contradicted by the rendered cause table. Split the parser and form-hint failures into separate engineering tickets.</Callout>
+## Engineering disposition — 5 October
+
+- **Parser: fixed.** Engineering reports `fix(dates): parse dd/mm for eu locales`. [Parser ticket](https://github.com/avyin/mega-s01e03-what-it-shows/issues/1) is closed as completed.
+- **Hint: won't fix.** Engineering reports `booking-v3 form retired`. [Form-hint ticket](https://github.com/avyin/mega-s01e03-what-it-shows/issues/2) is closed as not planned, not as a delivered hint fix.
+
+Source: the [Challenge page's engineering update](https://hq.mega.dev/challenges/what-it-shows),
+read on 16 November 2026. These are the desk's reported dispositions; we did not implement or
+independently test its product changes. The reproduction and verification criteria below document
+the investigation and remain useful if symptoms recur.
+
+<Callout>The “one issue, one fix” conclusion is contradicted by the rendered cause table. The separate tickets now record a parser fix and a retired form, not two fixes.</Callout>
 
 ## Separate problems and counts
 
@@ -70,10 +81,10 @@ Do not infer a new cause from a subject or an intake tag alone.
 
 ## Follow-up and verification
 
-- Track the parser and hint issues independently, including their report-ID membership in the repository's evidence file.
+- Preserve separate parser and hint dispositions, including report-ID membership in the repository's evidence file.
 - Keep the desk-note exceptions visible until reproduced; do not count them twice or silently discard their wording.
 - Refresh the export before making claims about the live queue; recompute rather than manually adjusting totals.
-- Treat queued fixes as unverified until their affected paths pass acceptance checks.
+- Distinguish the desk's reported parser fix from independent verification; the form hint was retired, not fixed.
 - Re-review the old triage advice and its replacement decision with the support owner.
 
 ## Evidence sources
