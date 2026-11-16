@@ -1,0 +1,86 @@
+---
+layout: runbook
+title: '#4471 review: separate parser and booking-form hint failures'
+owner: Maximiliano Martinez Marquez
+status: reviewed
+reviewed: '2026-11-16'
+signature: 'Maximiliano Martinez Marquez with Codex · S01E03 · 2026-11-16'
+---
+
+<script>
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import QueueTimeline from '#lib/kb/QueueTimeline.svelte';
+  import ReviewEvidence from '#lib/kb/ReviewEvidence.svelte';
+  import DedupeExplorer from '#lib/kb/DedupeExplorer.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+</script>
+
+This review replaces the interpretation in the [original incident page](/kb/incidents/4471).
+The evidence is the support KB export dated 4 October 2026. It is a snapshot: the desk continues
+working, and this review does not claim that the live queue has stopped or that either fix has shipped.
+
+<Callout>The “one issue, one fix” conclusion is contradicted by the rendered cause table. Split the parser and form-hint failures into separate engineering tickets.</Callout>
+
+## Separate problems and counts
+
+<CauseTable ticket={4471} />
+
+### Parser: month-first interpretation of day-first input
+
+The shared parser treats dates as month first even when the tenant writes day first.
+For example, Harbour Dental reports an April booking appearing in July. This cause covers app
+and email reports from day-first tenants, and form reports where the form does not print the
+month-first booking-v3 hint. It also includes app/email reports from booking-v3 tenants.
+
+Fix the shared parser's interpretation of the tenant's date format. Verify ambiguous dates in
+both directions, dates with a day greater than twelve, invalid dates, and month-first locales.
+Preserve a date-only booking's intended calendar day through the invite output.
+
+### Hint: booking-v3 tells day-first tenants to enter month first
+
+The booking-v3 form prints `MM/DD/YYYY`, but interprets the entered date according to the tenant's
+day-first locale. A person following the hint can therefore get a swapped date even when the
+form reads the tenant's format correctly. This is a distinct UI-contract failure; repairing the
+shared parser alone does not make the hint agree with the form.
+
+Align the displayed hint with the accepted format for each tenant. Verify a person following the
+hint gets the intended date for the affected booking-v3 tenants, and retain coverage for booking-v2
+and month-first tenants. Classify by tenant configuration and channel, not browser locale.
+
+<ReviewEvidence />
+
+## Timeline
+
+<QueueTimeline ticket={4471} />
+
+## Correct the duplicate rule
+
+The accepted [decision 0001](/kb/decisions/0001-dedupe-by-subject) merges on subject alone.
+The executable examples below contradict that shortcut: identical subjects can describe different
+causes, and different subjects can describe the same cause. Missing tenant information does not
+establish a match. Keep such reports unplaced until there is enough evidence.
+
+<DedupeExplorer />
+
+The [replacement decision proposal](/kb/decisions/0002-dedupe-by-cause) records the correction
+without rewriting the accepted historical decision. Reviewers should merge reports only when the
+underlying failure agrees, using the report body, tenant locale, form version, channel and reproduction.
+Do not infer a new cause from a subject or an intake tag alone.
+
+## Follow-up and verification
+
+- Track the parser and hint issues independently, including their report-ID membership in the repository's evidence file.
+- Keep the desk-note exceptions visible until reproduced; do not count them twice or silently discard their wording.
+- Refresh the export before making claims about the live queue; recompute rather than manually adjusting totals.
+- Treat queued fixes as unverified until their affected paths pass acceptance checks.
+- Re-review the old triage advice and its replacement decision with the support owner.
+
+## Evidence sources
+
+The tables and chart run the supplied `causes.ts`, `locales.ts`, `CauseTable.svelte`,
+`QueueTimeline.svelte`, and `DedupeExplorer.svelte` against `reports-4471.json`, tenant JSON
+files and `desk-notes.json`. `evidence/analysis.json` records the computed counts, membership,
+dedupe examples and weekly timeline; `npm run build` regenerates it and this rendered page.
+
+<RenderStamp {signature} />

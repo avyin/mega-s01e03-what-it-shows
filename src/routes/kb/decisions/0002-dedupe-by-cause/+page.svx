@@ -1,0 +1,37 @@
+---
+layout: runbook
+title: '0002 · Proposal: deduplicate by demonstrated cause'
+owner: Maximiliano Martinez Marquez
+status: proposed
+reviewed: '2026-11-16'
+signature: 'Maximiliano Martinez Marquez with Codex · S01E03 · 2026-11-16'
+---
+
+<script>
+  import DedupeExplorer from '#lib/kb/DedupeExplorer.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+## Context
+
+[The review of #4471](/kb/incidents/4471-review) finds distinct parser and booking-form hint
+failures in a ticket described as one issue. Subject matching hides that distinction. The old
+[accepted decision 0001](/kb/decisions/0001-dedupe-by-subject) is preserved unchanged.
+
+## Proposed replacement
+
+Use the failure mechanism as the duplicate key. Read the body and resolve tenant locale, form
+version and input channel. Subject and intake tags help search; neither proves a duplicate.
+Where the supplied classifier cannot place a report, retain it separately and gather missing context.
+
+<DedupeExplorer />
+
+## Consequences and acceptance
+
+Triage requires more context but avoids merging distinct bugs and splitting the same bug by wording.
+Keep explicit report IDs and per-cause counts so export overlap cannot inflate impact.
+Preserve contradictory observations as follow-ups instead of forcing a new technical diagnosis.
+This record remains proposed until the support owner accepts it; it does not claim that the desk's
+live policy or queue has already changed.
+
+<RenderStamp {signature} />
