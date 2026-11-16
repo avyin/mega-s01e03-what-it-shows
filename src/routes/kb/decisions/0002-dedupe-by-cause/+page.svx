@@ -4,7 +4,7 @@ title: '0002 · Proposal: deduplicate by demonstrated cause'
 owner: Maximiliano Martinez Marquez
 status: proposed
 reviewed: '2026-11-16'
-signature: 'Maximiliano Martinez Marquez with Codex · S01E03 · 2026-11-16'
+signature: 'v1.eyJzdWIiOiI5NzcxIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTQ4MTQyODIsImV4cCI6MTc5NDkwMDY4Mn0.7V_xvoiij_KXLJsVzs5i3Nt30PGVksPFzisuVqqkga8'
 ---
 
 <script>
